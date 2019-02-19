@@ -37,21 +37,3 @@ func main() {
 	body, err := ioutil.ReadAll(resp.Body)
 	fmt.Println(string(body))
 }
-
-// func SetParams(location *Flags.Location, apiKey string) string {
-// 	params := url.Values{}
-
-// 	if location.City != "" {
-// 		cityQuery := fmt.Sprintf("%s,%s", location.City, location.CountryCode)
-// 		params.Set("q", cityQuery)
-// 	}
-
-// 	if location.Zipcode != "" {
-// 		zipcodeQuery := fmt.Sprintf("%s,%s", location.Zipcode, location.CountryCode)
-// 		params.Set("zip", zipcodeQuery)
-// 	}
-
-// 	params.Set("APPID", apiKey)
-
-// 	return params.Encode()
-// }
