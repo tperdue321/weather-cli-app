@@ -6,4 +6,4 @@ It is a app for personal use both as an excuse to explore GoLang and to allow me
 
 You are welcome to use it but it is extremely unfinished at this time.
 
-I will continue to work on it and provide a more full readme in time.
+I will continue to work on it and provide a more full readme on it's full capabilities and requirements for it to function in time.
