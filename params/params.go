@@ -28,6 +28,7 @@ func SetParams(location *Flags.Location, apiKey string) string {
 	setCity(location, &params)
 	setZipcode(location, &params)
 	params.Set("APPID", apiKey)
+	params.Set("units", "imperial")
 	// if params.zip && params.city not set || lat and lon flags present{
 	if params.Get("zip") == "" && params.Get("city") == "" ||
 		params.Get("lat") != "" && params.Get("lon") != "" {
