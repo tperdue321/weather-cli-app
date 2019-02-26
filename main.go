@@ -39,7 +39,7 @@ func main() {
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	// fmt.Println(string(body))
+	fmt.Println(string(body))
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -55,10 +55,10 @@ func displayCurrentWeather(resp *data.WeatherJson) {
 	displayLineOne(resp)
 	fmt.Print("\n\n")
 	printHeaderLineTwo()
+	displayLineTwo(resp.TempData)
 	fmt.Print("\n\n")
 	printHeaderLineThree()
 	fmt.Print("\n\n")
-	// fmt.Println(resp)
 }
 
 func printHeaderLineOne() {
@@ -102,6 +102,17 @@ func displayLineOne(resp *data.WeatherJson) {
 	sunrise := parseTime(resp.Sys.Sunrise)
 	sunset := parseTime(resp.Sys.Sunset)
 	line := fmt.Sprintf("|%-15s|%-15s|%-15s|%-15s|", city, country, sunrise, sunset)
+	fmt.Println(line)
+}
+
+func displayLineTwo(tempData *data.TempData) {
+	temp := tempData.Temp
+	tempMin := tempData.TempMin
+	tempMax := tempData.TempMax
+	humidity := tempData.Humidity
+	pressure := tempData.Pressure
+	line := fmt.Sprintf("|%-15.2f|%-15.2f|%-15.2f|%-15d|%-15d|",
+		temp, tempMin, tempMax, humidity, pressure)
 	fmt.Println(line)
 }
 
