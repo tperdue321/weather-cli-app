@@ -1,7 +1,7 @@
 package data
 
 type WeatherJson struct {
-	Conditions *[]Conditions `json:"weather"`
+	Conditions []*Conditions `json:"weather"`
 	TempData   *TempData     `json:"main"`
 	Wind       *Wind         `json:"wind"`
 	Clouds     *Clouds       `json:"clouds"`

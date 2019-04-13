@@ -17,7 +17,7 @@ const ZIPCODE_KEY = "HOME_ZIPCODE"
 const GEO_LOC_API_KEY = "GEO_LOC_API_KEY"
 const GEO_LOOKUP_DOMAIN = "api.ipstack.com"
 
-type GeoLoc struct {
+type geoLoc struct {
 	Lat float64 `json:"latitude"`
 	Lon float64 `json:"longitude"`
 }
@@ -70,14 +70,16 @@ func setZipcode(location *Flags.Location, params *url.Values) {
 
 func setGeoLoc(location *Flags.Location, params *url.Values) {
 
-	var latitude string = ""
-	var longitude string = ""
+	var latitude string
+	var longitude string
 	// if an api key exists for geo loc lookup exists we can use it
-	//
 	geoApiKey, geoApiKeyEnvSet := os.LookupEnv(GEO_LOC_API_KEY)
+
+	// if cmd line args for lat & long are passed in use them
 	if location.Latitude != "" && location.Longitude != "" {
 		latitude = fmt.Sprintf("%s", location.Latitude)
 		longitude = fmt.Sprintf("%s", location.Longitude)
+		// else if a geo lock api key is available use that
 	} else if geoApiKeyEnvSet {
 		latitude, longitude = geoLookup(geoApiKey)
 	}
@@ -92,7 +94,7 @@ func setGeoLoc(location *Flags.Location, params *url.Values) {
 func geoLookup(geoApiKey string) (string, string) {
 
 	params := url.Values{"access_key": []string{geoApiKey}}
-	geo := new(GeoLoc)
+	geo := new(geoLoc)
 	geoURL := &url.URL{
 		Scheme:   "http",
 		Host:     GEO_LOOKUP_DOMAIN,

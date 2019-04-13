@@ -7,11 +7,11 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"time"
 
 	"github.com/tperdue321/weather-cli/data"
 	Flags "github.com/tperdue321/weather-cli/flags"
 	Params "github.com/tperdue321/weather-cli/params"
+	Presenter "github.com/tperdue321/weather-cli/presenter"
 )
 
 const ENV_KEY = "WEATHER_API_KEY"
@@ -39,7 +39,8 @@ func main() {
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(body))
+	// fmt.Println(string(body))
+	fmt.Println("\n\n\n")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -47,87 +48,5 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	displayCurrentWeather(&weatherResp)
-}
-
-func displayCurrentWeather(resp *data.WeatherJson) {
-	printHeaderLineOne()
-	displayLineOne(resp)
-	fmt.Print("\n\n")
-	printHeaderLineTwo()
-	displayLineTwo(resp.TempData)
-	fmt.Print("\n\n")
-	printHeaderLineThree()
-	fmt.Print("\n\n")
-}
-
-func printHeaderLineOne() {
-	headerline1 := []interface{}{
-		"City",
-		"Country",
-		"Sunrise",
-		"Sunset",
-	}
-	line1 := fmt.Sprintf("|%-15s|%-15s|%-15s|%-15s|", headerline1...)
-	fmt.Println(line1)
-}
-func printHeaderLineTwo() {
-	headerLine2 := []interface{}{
-		"Temp",
-		"Temp Min",
-		"Temp Max",
-		"Humidity",
-		"Pressure",
-	}
-	line2 := fmt.Sprintf("|%-15s|%-15s|%-15s|%-15s|%-15s|", headerLine2...)
-	fmt.Println(line2)
-}
-func printHeaderLineThree() {
-	headerLine3 := []interface{}{
-		"Conditions",
-		"Clouds",
-		"Wind",
-		"Rain 1hr",
-		"Rain 3hr",
-		"Snow 1hr",
-		"Snow 3hr",
-	}
-	line3 := fmt.Sprintf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|", headerLine3...)
-	fmt.Println(line3)
-}
-
-func displayLineOne(resp *data.WeatherJson) {
-	city := resp.City
-	country := resp.Sys.Country
-	sunrise := parseTime(resp.Sys.Sunrise)
-	sunset := parseTime(resp.Sys.Sunset)
-	line := fmt.Sprintf("|%-15s|%-15s|%-15s|%-15s|", city, country, sunrise, sunset)
-	fmt.Println(line)
-}
-
-func displayLineTwo(tempData *data.TempData) {
-	temp := tempData.Temp
-	tempMin := tempData.TempMin
-	tempMax := tempData.TempMax
-	humidity := tempData.Humidity
-	pressure := tempData.Pressure
-	line := fmt.Sprintf("|%-15.2f|%-15.2f|%-15.2f|%-15d|%-15d|",
-		temp, tempMin, tempMax, humidity, pressure)
-	fmt.Println(line)
-}
-
-func precipitationMmToInches(temp int) {
-
-}
-
-func parseTime(timeStamp int64) string {
-
-	var nanosecs int64 = 0
-	utcTimestamp := time.Unix(timeStamp, nanosecs)
-	location, err := time.LoadLocation("Local")
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	return utcTimestamp.In(location).Format("3:04PM")
+	Presenter.DisplayCurrentWeather(&weatherResp)
 }
