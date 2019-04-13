@@ -40,7 +40,7 @@ func main() {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	// fmt.Println(string(body))
-	fmt.Println("\n\n\n")
+	// fmt.Println("\n\n\n")
 	if err != nil {
 		fmt.Println(err)
 	}

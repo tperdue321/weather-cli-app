@@ -9,6 +9,7 @@ type WeatherJson struct {
 	Snow       *Snow         `json:"snow"`
 	City       string        `json:"name"`
 	Sys        *Sys          `json:"sys"`
+	CurTime    int64         `json:"dt"`
 }
 
 type Conditions struct {

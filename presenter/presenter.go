@@ -30,8 +30,9 @@ func printHeaderLineOne() {
 		"Country",
 		"Sunrise",
 		"Sunset",
+		"Calculated At",
 	}
-	line1 := fmt.Sprintf("|%-15s|%-15s|%-15s|%-15s|", headerline1...)
+	line1 := fmt.Sprintf("|%-15s|%-15s|%-15s|%-15s|%-15s|", headerline1...)
 	fmt.Println(line1)
 }
 func printHeaderLineTwo() {
@@ -61,7 +62,9 @@ func displayLineOne(resp *data.WeatherJson) {
 	country := resp.Sys.Country
 	sunrise := parseTime(resp.Sys.Sunrise)
 	sunset := parseTime(resp.Sys.Sunset)
-	line := fmt.Sprintf("|%-15s|%-15s|%-15s|%-15s|", city, country, sunrise, sunset)
+	curTime := parseTime(resp.CurTime)
+	line := fmt.Sprintf("|%-15s|%-15s|%-15s|%-15s|%-15s|",
+		city, country, sunrise, sunset, curTime)
 	fmt.Println(line)
 }
 
