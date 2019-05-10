@@ -81,7 +81,7 @@ func setGeoLoc(location *Flags.Location, params *url.Values) {
 		longitude = fmt.Sprintf("%s", location.Longitude)
 		// else if a geo lock api key is available use that
 	} else if geoApiKeyEnvSet {
-		latitude, longitude = geoLookup(geoApiKey)
+		latitude, longitude = GeoLookup(geoApiKey)
 	}
 
 	if latitude != "" && longitude != "" {
@@ -91,7 +91,7 @@ func setGeoLoc(location *Flags.Location, params *url.Values) {
 
 }
 
-func geoLookup(geoApiKey string) (string, string) {
+func GeoLookup(geoApiKey string) (string, string) {
 
 	params := url.Values{"access_key": []string{geoApiKey}}
 	geo := new(geoLoc)
