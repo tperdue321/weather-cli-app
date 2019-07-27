@@ -3,13 +3,12 @@ package presenter
 import (
 	"fmt"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/tperdue321/weather-cli/data"
 )
 
-func DisplayCurrentWeather(resp *data.WeatherJson) {
+func DisplayCurrentWeather(resp *data.WeatherJsonV2) {
 	printHeaderLineOne()
 	displayLineOne(resp)
 	fmt.Print("\n\n")
@@ -17,22 +16,22 @@ func DisplayCurrentWeather(resp *data.WeatherJson) {
 	displayLineTwo(resp)
 	fmt.Print("\n\n")
 	printConditionsLineHeader()
-	displayConditions(resp.Conditions)
-	fmt.Print("\n\n")
-	printHeaderLineFour()
-	displayLineFour(resp)
-	fmt.Print("\n\n")
+	displayConditions(resp.Currently.Icon)
+	// fmt.Print("\n\n")
+	// printHeaderLineFour()
+	// displayLineFour(resp)
+	// fmt.Print("\n\n")
 }
 
 func printHeaderLineOne() {
 	headerline1 := []interface{}{
 		"City",
-		"Country",
-		"Sunrise",
-		"Sunset",
-		"Calculated At",
+		"State",
+		// "Sunrise",
+		// "Sunset",
+		"Current Time",
 	}
-	line1 := fmt.Sprintf("|%-15s|%-15s|%-15s|%-15s|%-15s|", headerline1...)
+	line1 := fmt.Sprintf("|%-15s|%-15s|%-15s|", headerline1...)
 	fmt.Println(line1)
 }
 func printHeaderLineTwo() {
@@ -57,29 +56,28 @@ func printHeaderLineFour() {
 	fmt.Println(line4)
 }
 
-func displayLineOne(resp *data.WeatherJson) {
+func displayLineOne(resp *data.WeatherJsonV2) {
 	city := resp.City
-	country := resp.Sys.Country
-	sunrise := parseTime(resp.Sys.Sunrise)
-	sunset := parseTime(resp.Sys.Sunset)
-	curTime := parseTime(resp.CurTime)
-	line := fmt.Sprintf("|%-15s|%-15s|%-15s|%-15s|%-15s|",
-		city, country, sunrise, sunset, curTime)
+	state := resp.State
+	// sunrise := parseTime(resp.Sys.Sunrise)
+	// sunset := parseTime(resp.Sys.Sunset)
+	curTime := parseTime(resp.Currently.Time)
+	line := fmt.Sprintf("|%-15s|%-15s|%-15s|",
+		city, state, curTime)
 	fmt.Println(line)
 }
 
-func displayLineTwo(resp *data.WeatherJson) {
-	tempDataStruct := resp.TempData
+func displayLineTwo(resp *data.WeatherJsonV2) {
 
-	temp := tempDataStruct.Temp
-	humidity := tempDataStruct.Humidity
-	pressure := tempDataStruct.Pressure
+	temp := resp.Currently.Temp
+	humidity := resp.Currently.Humidity * 100
+	pressure := resp.Currently.Pressure
 
 	// these represent deviation
 	// tempMin := tempData.TempMin
 	// tempMax := tempData.TempMax
 
-	line := fmt.Sprintf("|%-15.2f|%-15d|%-15d|",
+	line := fmt.Sprintf("|%-15.1f|%-15.0f|%-15.2f|",
 		temp, humidity, pressure)
 	fmt.Println(line)
 }
@@ -88,22 +86,23 @@ func printConditionsLineHeader() {
 	fmt.Println("Conditions:")
 }
 
-func displayConditions(conditionsStructArray []*data.Conditions) {
-	length := len(conditionsStructArray)
-	// conditions and descriptions arrays of any datatype
-	var conditions = make([]interface{}, length)
-	var descriptions = make([]interface{}, length)
-	for i, condition := range conditionsStructArray {
-		conditions[i] = condition.Type
-		descriptions[i] = condition.Descrip
-	}
+func displayConditions(conditions string) { //(conditionsStructArray []*data.Conditions) {
+	// length := len(conditionsStructArray)
+	// // conditions and descriptions arrays of any datatype
+	// var conditions = make([]interface{}, length)
+	// var descriptions = make([]interface{}, length)
+	// for i, condition := range conditionsStructArray {
+	// 	conditions[i] = condition.Type
+	// 	descriptions[i] = condition.Descrip
+	// }
 
 	format := "%-30s"
-	format = strings.Repeat(format, length)
-	conditionsLine := fmt.Sprintf(format, conditions...)
-	descriptionLine := fmt.Sprintf(format, descriptions...)
-	fmt.Println(conditionsLine)
-	fmt.Println(descriptionLine)
+	// format = strings.Repeat(format, length)
+	// conditionsLine := fmt.Sprintf(format, conditions...)
+	// descriptionLine := fmt.Sprintf(format, descriptions...)
+	line := fmt.Sprintf(format, conditions)
+	fmt.Println(line)
+	// fmt.Println(descriptionLine)
 }
 
 func displayLineFour(resp *data.WeatherJson) {
